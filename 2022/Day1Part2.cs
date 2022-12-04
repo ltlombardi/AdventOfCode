@@ -2,7 +2,7 @@ class Day1Part2
 {
     internal static async Task<int> Solution()
     {
-        var lines = await File.ReadAllLinesAsync("InputDay1.txt");
+        var lines = await File.ReadAllLinesAsync("Day1Input.txt");
         int max1, max2, max3, sum;
         max1 = max2 = max3 = sum = 0;
         for (int i = 0; i < lines.Length; i++)
@@ -38,7 +38,7 @@ class Day1Part2
 
     internal static async Task<int> Solution2()
     {
-        var text = await File.ReadAllTextAsync("InputDay1.txt");
+        var text = await File.ReadAllTextAsync("Day1Input.txt");
         var result = text
             .Split("\r\n\r\n")
             .Select(t => t.Split("\r\n").Select(l => l == "" ? 0 : int.Parse(l)))

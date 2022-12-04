@@ -2,7 +2,7 @@ class Day2Part1
 {
     internal static async Task<int> Solution()
     {
-        var lines = await File.ReadAllLinesAsync("InputDay2.txt");
+        var lines = await File.ReadAllLinesAsync("Day2Input.txt");
         var result = 0;
         foreach (var line in lines)
         {
