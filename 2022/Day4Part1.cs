@@ -7,9 +7,8 @@ class Day4Part1
         foreach (var line in lines)
         {
             var pairs = line.Split(',');
-            var (first, second) = (pairs[0], pairs[1]);
-            var firstRange = first.Split('-').Select(int.Parse).ToArray();
-            var secondRange = second.Split('-').Select(int.Parse).ToArray();
+            var firstRange = pairs[0].Split('-').Select(int.Parse).ToArray();
+            var secondRange = pairs[1].Split('-').Select(int.Parse).ToArray();
 
             if (firstRange[0] <= secondRange[0] && firstRange[1] >= secondRange[1])
             {

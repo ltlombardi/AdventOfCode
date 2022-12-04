@@ -9,9 +9,8 @@ class Day4Part2
         foreach (var line in lines)
         {
             var pairs = line.Split(',');
-            var (first, second) = (pairs[0], pairs[1]);
-            var firstRange = BuildSet(first.Split('-').Select(int.Parse).ToArray());
-            var secondRange = BuildSet(second.Split('-').Select(int.Parse).ToArray());
+            var firstRange = BuildSet(pairs[0].Split('-').Select(int.Parse).ToArray());
+            var secondRange = BuildSet(pairs[1].Split('-').Select(int.Parse).ToArray());
 
             if (firstRange.Any(secondRange.Contains))
             {
