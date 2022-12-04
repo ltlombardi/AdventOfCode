@@ -10,8 +10,8 @@ class Day4Part2
         {
             var pairs = line.Split(',');
             var (first, second) = (pairs[0], pairs[1]);
-            var firstRange = BuildRange(first.Split('-').Select(int.Parse).ToArray());
-            var secondRange = BuildRange(second.Split('-').Select(int.Parse).ToArray());
+            var firstRange = BuildSet(first.Split('-').Select(int.Parse).ToArray());
+            var secondRange = BuildSet(second.Split('-').Select(int.Parse).ToArray());
 
             if (firstRange.Any(secondRange.Contains))
             {
@@ -21,8 +21,8 @@ class Day4Part2
         return result;
     }
 
-    private static ISet<int> BuildRange(int[] range)
+    private static ISet<int> BuildSet(int[] range)
     {
-        return Enumerable.Range(range[0], range[1]-range[0]+1).ToHashSet();
+        return Enumerable.Range(range[0], range[1] - range[0] + 1).ToHashSet();
     }
 }
