@@ -15,7 +15,7 @@ function FunctionName {
     }
 "@
 }
-
+//test
 for ($i = 1; $i -le 25; $i++) {
     $name = "Day${i}Part1" 
     $file = New-Item "$name.cs"
