@@ -1,2 +1,6 @@
 ﻿// See https://aka.ms/new-console-template for more information
-Console.WriteLine("Hello, World!");
+
+
+var result = await Day2Part2.Solution1();
+Console.WriteLine($"Result is {result}");
+
