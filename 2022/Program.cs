@@ -8,8 +8,9 @@ var solutions = new[,]
     { Day1Part1.Solution, Day1Part2.Solution},
     { Day2Part1.Solution, Day2Part2.Solution},
     { Day3Part1.Solution, Day3Part2.Solution},
+    { Day4Part1.Solution, Day4Part2.Solution},
 };
-var day = dayToExecute ?? solutions.Length;
+var day = dayToExecute ?? solutions.Length/2;
 var result = await solutions[day - 1, 0].Invoke();
 Console.WriteLine($"Result of part 1 is {result}");
 
