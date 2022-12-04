@@ -1,6 +1,6 @@
 class Day2Part2
 {
-    internal static async Task<int> Solution1()
+    internal static async Task<int> Solution()
     {
         var lines = await File.ReadAllLinesAsync("InputDay2.txt");
         var result = 0;

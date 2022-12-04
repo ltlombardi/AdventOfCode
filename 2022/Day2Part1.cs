@@ -1,6 +1,6 @@
 class Day2Part1
 {
-    internal static async Task<int> Solution1()
+    internal static async Task<int> Solution()
     {
         var lines = await File.ReadAllLinesAsync("InputDay2.txt");
         var result = 0;
@@ -18,7 +18,7 @@ class Day2Part1
             case 'X': return 1;
             case 'Y': return 2;
             case 'Z': return 3;
-            default: return 0;
+            default: throw new Exception();
         }
     }
 
@@ -29,7 +29,7 @@ class Day2Part1
             case 'X': return 'A';
             case 'Y': return 'B';
             case 'Z': return 'C';
-            default: return default;
+            default: throw new Exception();
         }
     }
 
@@ -44,7 +44,7 @@ class Day2Part1
             case 'A': return yours == 'Z' ? 0 : 6;
             case 'B': return yours == 'X' ? 0 : 6;
             case 'C': return yours == 'Y' ? 0 : 6;
-            default: return 0;
+            default: throw new Exception();
         }
     }
 }
