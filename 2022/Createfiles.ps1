@@ -8,7 +8,7 @@ function FunctionName {
     {
         internal static async Task<string> Solution()
         {
-            var lines = await File.ReadAllLinesAsync("Day$dayInput.txt");
+            var lines = await File.ReadAllLinesAsync("Day${day}Input.txt");
             var result = 0;
             return result.ToString();
         }
