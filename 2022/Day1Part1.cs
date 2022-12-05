@@ -1,6 +1,6 @@
 class Day1Part1
 {
-    internal static async Task<int> Solution()
+    internal static async Task<string> Solution()
     {
         var lines = await File.ReadAllLinesAsync("Day1Input.txt");
         var max = 0;
@@ -19,11 +19,11 @@ class Day1Part1
         }
         max = Math.Max(max, sum); // needs to check last sum
         var result = max;
-        return result;
+        return result.ToString();
     }
 
 
-    internal static async Task<int> Solution2()
+    internal static async Task<string> Solution2()
     {
         var lines = await File.ReadAllLinesAsync("Day1Input.txt");
         var count = 0;
@@ -38,10 +38,10 @@ class Day1Part1
             .Select(v => v.Aggregate((a, b) => a + b))
             .Max();
 
-        return result;
+        return result.ToString();
     }
 
-    internal static async Task<int> Solution3()
+    internal static async Task<string> Solution3()
     {
         var text = await File.ReadAllTextAsync("Day1Input.txt");
         var result = text
@@ -50,6 +50,6 @@ class Day1Part1
             .Select(l => l.Aggregate((a, b) => a + b))
             .Max();
 
-        return result;
+        return result.ToString();
     }
 }

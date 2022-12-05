@@ -1,6 +1,6 @@
 class Day1Part2
 {
-    internal static async Task<int> Solution()
+    internal static async Task<string> Solution()
     {
         var lines = await File.ReadAllLinesAsync("Day1Input.txt");
         int max1, max2, max3, sum;
@@ -33,10 +33,10 @@ class Day1Part2
             }
         }
         var result = max1 + max2 + max3;
-        return result;
+        return result.ToString();
     }
 
-    internal static async Task<int> Solution2()
+    internal static async Task<string> Solution2()
     {
         var text = await File.ReadAllTextAsync("Day1Input.txt");
         var result = text
@@ -47,6 +47,6 @@ class Day1Part2
             .Take(3)
             .Sum();
 
-        return result;
+        return result.ToString();
     }
 }

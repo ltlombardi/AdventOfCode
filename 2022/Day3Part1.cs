@@ -1,6 +1,6 @@
 class Day3Part1
 {
-    internal static async Task<int> Solution()
+    internal static async Task<string> Solution()
     {
         var lines = await File.ReadAllLinesAsync("Day3Input.txt");
         var result = 0;
@@ -16,7 +16,7 @@ class Day3Part1
                 tested.Add(letter);
             }
         }
-        return result;
+        return result.ToString();
     }
 
     private static int CalculatePriority(char letter)

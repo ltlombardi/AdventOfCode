@@ -2,7 +2,7 @@ using System.Text;
 
 class Day4Part2
 {
-    internal static async Task<int> Solution()
+    internal static async Task<string> Solution()
     {
         var lines = await File.ReadAllLinesAsync("Day4Input.txt");
         var result = 0;
@@ -17,7 +17,7 @@ class Day4Part2
                 result++;
             }
         }
-        return result;
+        return result.ToString();
     }
 
     private static ISet<int> BuildSet(int[] range)

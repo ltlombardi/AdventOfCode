@@ -6,11 +6,11 @@ function FunctionName {
     return @"
     class $name
     {
-        internal static async Task<int> Solution()
+        internal static async Task<string> Solution()
         {
-            var lines = await File.ReadAllLinesAsync("InputDay$day.txt");
+            var lines = await File.ReadAllLinesAsync("Day$dayInput.txt");
             var result = 0;
-            return result;
+            return result.ToString();
         }
     }
 "@

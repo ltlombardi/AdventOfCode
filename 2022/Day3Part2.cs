@@ -1,14 +1,14 @@
 class Day3Part2
 {
-    internal static async Task<int> Solution()
+    internal static async Task<string> Solution()
     {
         var lines = await File.ReadAllLinesAsync("Day3Input.txt");
         var result = 0;
-        for(var i = 0; i< lines.Length; i+=3)
+        for (var i = 0; i < lines.Length; i += 3)
         {
             var first = lines[i];
-            var second = lines[i+1];
-            var third = lines[i+2];
+            var second = lines[i + 1];
+            var third = lines[i + 2];
             var tested = new HashSet<char>();
             foreach (var letter in first)
             {
@@ -17,7 +17,7 @@ class Day3Part2
                 tested.Add(letter);
             }
         }
-        return result;
+        return result.ToString();
     }
 
     private static int CalculatePriority(char letter)

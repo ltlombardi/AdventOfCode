@@ -1,6 +1,6 @@
 class Day2Part1
 {
-    internal static async Task<int> Solution()
+    internal static async Task<string> Solution()
     {
         var lines = await File.ReadAllLinesAsync("Day2Input.txt");
         var result = 0;
@@ -8,7 +8,7 @@ class Day2Part1
         {
             result += GetShapeScore(line[2]) + GetOutcomeScore(line[0], line[2]);
         }
-        return result;
+        return result.ToString();
     }
 
     static int GetShapeScore(char letter)
