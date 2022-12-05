@@ -4,27 +4,25 @@ class Day5Part2
     {
         var lines = await File.ReadAllLinesAsync("Day5Input.txt");
         var columnSize = 4; // number of chars used to represent each crate in the stack in the input
-        var lastColumnSpacer = 1;
-        var numberOfStacks = (lines[0].Length + lastColumnSpacer) / columnSize;
+        var numberOfStacks = (lines[0].Length + 1) / columnSize; // +1 because last column occupies only 3 chars
         var stackInput = Enumerable
             .Range(0, numberOfStacks)
             .Select(i => new Stack<string>())
             .ToArray();
-        var i = 0;
-        for (; lines[i] != ""; i++)
+        var divisionIndex = lines.Select((l, i) => new { line = l, index = i }).First(v => v.line == "").index;
+        for (var i = 0; i < divisionIndex - 1; i++)
         {
             var line = lines[i];
             for (int j = 0; j < numberOfStacks; j++)
             {
                 var crate = line[j * 4 + 1].ToString();
-                if (!string.IsNullOrWhiteSpace(crate) && char.IsLetter(crate.ToCharArray()[0]))
+                if (!string.IsNullOrWhiteSpace(crate) && char.IsLetter(crate[0]))
                     stackInput[j].Push(crate);
             }
         }
-        
+
         var stacks = stackInput.Select(s => new Stack<string>(s)).ToArray();
-        i++; //skip empty line
-        for (; i < lines.Length; i++)
+        for (var i = divisionIndex + 1; i < lines.Length; i++)
         {
             var move = lines[i]
                 .Split(' ')
