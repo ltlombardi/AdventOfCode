@@ -16,7 +16,7 @@ class Day5Part1
             for (int j = 0; j < numberOfStacks; j++)
             {
                 var crate = line[j * 4 + 1].ToString();
-                if (!string.IsNullOrWhiteSpace(crate) && char.IsLetter(crate.ToCharArray()[0]))
+                if (!string.IsNullOrWhiteSpace(crate))
                     stackInput[j].Push(crate);
             }
         }

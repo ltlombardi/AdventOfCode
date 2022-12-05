@@ -16,7 +16,7 @@ class Day5Part2
             for (int j = 0; j < numberOfStacks; j++)
             {
                 var crate = line[j * 4 + 1].ToString();
-                if (!string.IsNullOrWhiteSpace(crate) && char.IsLetter(crate[0]))
+                if (!string.IsNullOrWhiteSpace(crate))
                     stackInput[j].Push(crate);
             }
         }
@@ -32,7 +32,7 @@ class Day5Part2
             var temp = new List<string>();
             for (int j = 0; j < move[0]; j++)
             {
-             temp.Add(stacks[move[1] - 1].Pop());
+                temp.Add(stacks[move[1] - 1].Pop());
             }
             temp.Reverse();
             for (int j = 0; j < temp.Count; j++)
