@@ -3,12 +3,13 @@ class Day6Part2
     internal static async Task<string> Solution()
     {
         var line = await File.ReadAllTextAsync("Day6Input.txt");
-        var list = new LinkedList<char>(line.Take(14));
+        const int markerSize = 14;
+        var list = new LinkedList<char>(line.Take(markerSize));
 
         var result = 0;
-        for (int i = 14; i < line.Length; i++)
+        for (int i = markerSize; i < line.Length; i++)
         {
-            if (list.Distinct().Count() == 14)
+            if (list.Distinct().Count<char>() == markerSize)
             {
                 result = i;
                 break;
