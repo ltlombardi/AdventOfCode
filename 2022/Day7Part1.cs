@@ -5,24 +5,29 @@ class Day7Part1
         var lines = await File.ReadAllLinesAsync("Day7Input.txt");
         var result = 0;
         var dict = new Dictionary<string, int>();
-        var dirTree = new List<string>();
+        var directoryTree = new List<string>();
         for (int i = 0; i < lines.Length; i++)
         {
-            var line = lines[i];
-            var sections = line.Split(' ');
+            var sections = lines[i].Split(' ');
             if (sections[1] == "cd")
             {
                 if (sections[2] == "..")
-                    dirTree.RemoveAt(dirTree.Count - 1);
+                    directoryTree.RemoveAt(directoryTree.Count - 1);
                 else
-                    dirTree.Add(sections[2]);
+                    directoryTree.Add(sections[2]);
             }
             if (char.IsNumber(sections[0][0]))
             {
                 var fileSize = int.Parse(sections[0]);
-                for (int j = 0; j < dirTree.Count; j++)
+                for (int j = 0; j < directoryTree.Count; j++)
                 {
-                    AddSize(dict, fileSize, dirTree[j]);
+                    //folder names aren't unique, so need to use path, not just name.
+                    var path = "";
+                    for (int k = 0; k <= j; k++)
+                    {
+                        path += directoryTree[k];
+                    }
+                    AddSize(dict, fileSize, path);
                 }
             }
         }
