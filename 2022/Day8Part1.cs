@@ -21,10 +21,22 @@ class Day8Part1
 
     private static bool IsInteriorVisible(string[] lines, int i, int j)
     {
-        
-        return Char.GetNumericValue(lines[i][j]) > Char.GetNumericValue(lines[i][j + 1])
-        || Char.GetNumericValue(lines[i][j]) > Char.GetNumericValue(lines[i][j - 1])
-        || Char.GetNumericValue(lines[i][j]) > Char.GetNumericValue(lines[i - 1][j])
-        || Char.GetNumericValue(lines[i][j]) > Char.GetNumericValue(lines[i + 1][j]);
+        var current = lines[i][j];
+        var isTopVisible = true;
+        for (int row = 0; row < i; row++)
+        {
+            isTopVisible = isTopVisible && lines[row][j] < current;
+        }
+
+        var isBotVisible = true;
+        for (int row = i + 1; row < lines.Length; row++)
+        {
+            isBotVisible = isBotVisible && lines[row][j] < current;
+        }
+
+        return lines[i].Substring(j + 1).All(l => l < current)
+        || lines[i].Substring(0, j).All(l => l < current)
+        || isTopVisible
+        || isBotVisible;
     }
 }

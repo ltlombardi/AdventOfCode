@@ -5,7 +5,7 @@ class Day7Part1
         var lines = await File.ReadAllLinesAsync("Day7Input.txt");
         var result = 0;
         var dict = new Dictionary<string, int>();
-        var directoryTree = new List<string>();
+        var directoryTree = new List<string>(); // stack would be a little easier.
         for (int i = 0; i < lines.Length; i++)
         {
             var sections = lines[i].Split(' ');
