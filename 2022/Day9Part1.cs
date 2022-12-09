@@ -7,75 +7,81 @@ class Day9Part1
         var lines = await File.ReadAllLinesAsync("Day9Input.txt");
         var result = 0;
         var tailPositions = new List<Point> { new Point() };
-        var posHead = new Point();
+        var headPos = new Point();
         foreach (var line in lines)
         {
-            var move = line.Split(' ').Select(int.Parse).ToArray();
+            var move = line.Split(' ');
             var direction = move[0];
-            var steps = move[1];
-            var posTail = tailPositions.Last();
-            if (posHead == posTail)
+            var steps = int.Parse(move[1]);
+            for (int i = 0; i < steps; i++)
             {
-                steps--;
+                var lastTailPos = tailPositions.Last();
+                var tailPos = new Point(lastTailPos.X, lastTailPos.Y);
+                if (direction == "R")
+                {
+                    headPos.X += 1;
+                }
+                if (direction == "L")
+                {
+                    headPos.X -= 1;
+                }
+                if (direction == "U")
+                {
+                    headPos.Y += 1;
+                }
+                if (direction == "D")
+                {
+                    headPos.Y -= 1;
+                }
+                if (IsTouching(headPos, tailPos))
+                {
+                    continue;
+                }
+                if (IsHeadUp(headPos, tailPos))
+                {
+                    tailPos.Y++;
+                }
+                if (IsHeadDown(headPos, tailPos))
+                {
+                    tailPos.Y--;
+                }
+                if (IsHeadRight(headPos, tailPos))
+                {
+                    tailPos.X++;
+                }
+                if (IsHeadLeft(headPos, tailPos))
+                {
+                    tailPos.X--;
+                }
+                tailPositions.Add(tailPos);
             }
-            // if steps == 0 continue
-            var newTailPos = new Point();
-            if (direction == 'R')
-            {
-                if (IsUpOrDown(posHead, posTail))
-                {
-                    steps--;
-                }
-                if (IsDiagonalLeft(posHead, posTail))
-                {
-                    newTailPos = new Point(posHead.X, posTail.Y + (posHead.Y - posTail.Y));
-                }
-                else
-                {
-                    newTailPos = new Point(posHead.X - 1 + steps, posHead.Y);
-                }
-            }
-            if (direction == 'L')
-            {
-                if (IsUpOrDown(posHead, posTail))
-                {
-                    steps--;
-                }
-                if (IsDiagonalRight(posHead, posTail))
-                {
-                    newTailPos = new Point(posHead.X - 1, posTail.Y + (posHead.Y - posTail.Y));
-                }
-                else
-                {
-                    newTailPos = new Point(posHead.X - 1 - steps, posHead.Y);
-                }
-            }
-            if (direction == 'U')
-            {
-                newTailPos = new Point(posHead.X, posHead.Y - 1 + steps);
-            }
-            if (direction == 'D')
-            {
-                newTailPos = new Point(posHead.X, posHead.Y - 1 - steps);
-            }
-            tailPositions.Add(newTailPos);
         }
+        result = tailPositions.Distinct().Count();
         return result.ToString();
     }
 
-    private static bool IsDiagonalRight(Point posHead, Point posTail)
+    private static bool IsHeadLeft(Point headPos, Point tailPos)
     {
-        return posHead.Y != posTail.Y && posHead.X < posTail.X;
+        return headPos.X < tailPos.X;
     }
 
-    private static bool IsUpOrDown(Point posHead, Point posTail)
+    private static bool IsHeadRight(Point headPos, Point tailPos)
     {
-        var diagonalcommingback = posHead.X == posTail.X && posHead.Y != posTail.Y;
-        return posHead.X == posTail.X && posHead.Y != posTail.Y;
+        return headPos.X > tailPos.X;
     }
 
-    private static bool IsDiagonalLeft(Point posHead, Point posTail)
+    private static bool IsHeadDown(Point headPos, Point tailPos)
     {
-        return posHead.Y != posTail.Y && posHead.X > posTail.X;
+        return headPos.Y < tailPos.Y;
+    }
+
+    private static bool IsHeadUp(Point headPos, Point tailPos)
+    {
+        return headPos.Y > tailPos.Y;
+    }
+
+    private static bool IsTouching(Point headPos, Point tailPos)
+    {
+        return Math.Abs(headPos.X - tailPos.X) <= 1 && Math.Abs(headPos.Y - tailPos.Y) <= 1;
     }
 }
