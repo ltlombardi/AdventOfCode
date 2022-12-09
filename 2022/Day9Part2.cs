@@ -6,9 +6,10 @@ class Day9Part2
     {
         var lines = await File.ReadAllLinesAsync("Day9Input.txt");
         var result = 0;
-        var tailPositions = new List<Point> { new Point() };
-        // var tailPositions = new List<List<Point>>();
-        // Enumerable.Range(0, 9).ToList().ForEach(e => tailPositions.Add(new List<Point> { new Point() }));
+        var tailsPositions = Enumerable
+            .Range(0, 9)
+            .Select(_ => new List<Point> { new Point() })
+            .ToArray();
         var headPos = new Point();
         foreach (var line in lines)
         {
@@ -17,13 +18,30 @@ class Day9Part2
             var steps = int.Parse(move[1]);
             for (int i = 0; i < steps; i++)
             {
-                var lastTailPos = tailPositions.Last();
-                var tailPos = new Point(lastTailPos.X, lastTailPos.Y);
-                MoveAfterHead(ref headPos, ref tailPos, direction);
-                tailPositions.Add(tailPos);
+                if (direction == "R")
+                {
+                    headPos.X += 1;
+                }
+                if (direction == "L")
+                {
+                    headPos.X -= 1;
+                }
+                if (direction == "U")
+                {
+                    headPos.Y += 1;
+                }
+                if (direction == "D")
+                {
+                    headPos.Y -= 1;
+                }
+                for (int j = 0; j < tailsPositions.Length; j++)
+                {
+                    var lead = j == 0 ? headPos : tailsPositions[j-1].Last();
+                    tailsPositions[j].Add(MoveAfterHead(lead, tailsPositions[j].Last()));
+                }
             }
         }
-        result = tailPositions.Distinct().Count();
+        result = tailsPositions.Last().Distinct().Count();
         return result.ToString();
     }
 
@@ -52,43 +70,27 @@ class Day9Part2
         return Math.Abs(headPos.X - tailPos.X) <= 1 && Math.Abs(headPos.Y - tailPos.Y) <= 1;
     }
 
-    private static void MoveAfterHead(ref Point leadPos, ref Point followerPos, string direction)
+    private static Point MoveAfterHead(Point headPos, Point tailPos)
     {
-        if (direction == "R")
+        if (!IsTouching(headPos, tailPos))
         {
-            leadPos.X += 1;
+            if (IsHeadUp(headPos, tailPos))
+            {
+                tailPos.Y++;
+            }
+            if (IsHeadDown(headPos, tailPos))
+            {
+                tailPos.Y--;
+            }
+            if (IsHeadRight(headPos, tailPos))
+            {
+                tailPos.X++;
+            }
+            if (IsHeadLeft(headPos, tailPos))
+            {
+                tailPos.X--;
+            }
         }
-        if (direction == "L")
-        {
-            leadPos.X -= 1;
-        }
-        if (direction == "U")
-        {
-            leadPos.Y += 1;
-        }
-        if (direction == "D")
-        {
-            leadPos.Y -= 1;
-        }
-        if (IsTouching(leadPos, followerPos))
-        {
-            return;
-        }
-        if (IsHeadUp(leadPos, followerPos))
-        {
-            followerPos.Y++;
-        }
-        if (IsHeadDown(leadPos, followerPos))
-        {
-            followerPos.Y--;
-        }
-        if (IsHeadRight(leadPos, followerPos))
-        {
-            followerPos.X++;
-        }
-        if (IsHeadLeft(leadPos, followerPos))
-        {
-            followerPos.X--;
-        }
+        return tailPos;
     }
 }
