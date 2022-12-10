@@ -7,7 +7,7 @@ class Day9Part1
         var lines = await File.ReadAllLinesAsync("Day9Input.txt");
         var result = 0;
         var tailPositions = new List<Point> { new Point() };
-        var headPos = new Point();
+        var headPosition = new Point();
         foreach (var line in lines)
         {
             var move = line.Split(' ');
@@ -15,41 +15,41 @@ class Day9Part1
             var steps = int.Parse(move[1]);
             for (int i = 0; i < steps; i++)
             {
-                var lastTailPos = tailPositions.Last();
-                var tailPos = new Point(lastTailPos.X, lastTailPos.Y);
+                var lastTailPosition = tailPositions.Last();
+                var tailPos = new Point(lastTailPosition.X, lastTailPosition.Y);
                 if (direction == "R")
                 {
-                    headPos.X += 1;
+                    headPosition.X += 1;
                 }
                 if (direction == "L")
                 {
-                    headPos.X -= 1;
+                    headPosition.X -= 1;
                 }
                 if (direction == "U")
                 {
-                    headPos.Y += 1;
+                    headPosition.Y += 1;
                 }
                 if (direction == "D")
                 {
-                    headPos.Y -= 1;
+                    headPosition.Y -= 1;
                 }
-                if (IsTouching(headPos, tailPos))
+                if (IsTouching(headPosition, tailPos))
                 {
                     continue;
                 }
-                if (IsHeadUp(headPos, tailPos))
+                if (IsHeadUp(headPosition, tailPos))
                 {
                     tailPos.Y++;
                 }
-                if (IsHeadDown(headPos, tailPos))
+                if (IsHeadDown(headPosition, tailPos))
                 {
                     tailPos.Y--;
                 }
-                if (IsHeadRight(headPos, tailPos))
+                if (IsHeadRight(headPosition, tailPos))
                 {
                     tailPos.X++;
                 }
-                if (IsHeadLeft(headPos, tailPos))
+                if (IsHeadLeft(headPosition, tailPos))
                 {
                     tailPos.X--;
                 }

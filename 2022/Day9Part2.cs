@@ -6,11 +6,11 @@ class Day9Part2
     {
         var lines = await File.ReadAllLinesAsync("Day9Input.txt");
         var result = 0;
-        var tailsPositions = Enumerable
+        var knotPositions = Enumerable
             .Range(0, 9)
             .Select(_ => new List<Point> { new Point() })
             .ToArray();
-        var headPos = new Point();
+        var headPosition = new Point();
         foreach (var line in lines)
         {
             var move = line.Split(' ');
@@ -18,31 +18,39 @@ class Day9Part2
             var steps = int.Parse(move[1]);
             for (int i = 0; i < steps; i++)
             {
-                if (direction == "R")
+                headPosition = MoveHead(headPosition, direction);
+                for (int j = 0; j < knotPositions.Length; j++)
                 {
-                    headPos.X += 1;
-                }
-                if (direction == "L")
-                {
-                    headPos.X -= 1;
-                }
-                if (direction == "U")
-                {
-                    headPos.Y += 1;
-                }
-                if (direction == "D")
-                {
-                    headPos.Y -= 1;
-                }
-                for (int j = 0; j < tailsPositions.Length; j++)
-                {
-                    var lead = j == 0 ? headPos : tailsPositions[j-1].Last();
-                    tailsPositions[j].Add(MoveAfterHead(lead, tailsPositions[j].Last()));
+                    var leadPosition = j == 0 ? headPosition : knotPositions[j - 1].Last();
+                    knotPositions[j].Add(MoveKnot(leadPosition, knotPositions[j].Last()));
                 }
             }
         }
-        result = tailsPositions.Last().Distinct().Count();
+        result = knotPositions.Last().Distinct().Count();
         return result.ToString();
+    }
+
+    private static Point MoveHead(Point headPosition, string direction)
+    {
+        // Point is a value type, not reference type. 
+        // Changes here don't affect the original parameter
+        if (direction == "R")
+        {
+            headPosition.X += 1;
+        }
+        if (direction == "L")
+        {
+            headPosition.X -= 1;
+        }
+        if (direction == "U")
+        {
+            headPosition.Y += 1;
+        }
+        if (direction == "D")
+        {
+            headPosition.Y -= 1;
+        }
+        return headPosition;
     }
 
     private static bool IsHeadLeft(Point headPos, Point tailPos)
@@ -70,7 +78,7 @@ class Day9Part2
         return Math.Abs(headPos.X - tailPos.X) <= 1 && Math.Abs(headPos.Y - tailPos.Y) <= 1;
     }
 
-    private static Point MoveAfterHead(Point headPos, Point tailPos)
+    private static Point MoveKnot(Point headPos, Point tailPos)
     {
         if (!IsTouching(headPos, tailPos))
         {
