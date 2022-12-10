@@ -6,8 +6,9 @@ class Day9Part1
     {
         var lines = await File.ReadAllLinesAsync("Day9Input.txt");
         var result = 0;
-        var tailPositions = new List<Point> { new Point() };
         var headPosition = new Point();
+        var tailPos = new Point();
+        var tailPositions = new HashSet<Point> { tailPos };
         foreach (var line in lines)
         {
             var move = line.Split(' ');
@@ -15,8 +16,6 @@ class Day9Part1
             var steps = int.Parse(move[1]);
             for (int i = 0; i < steps; i++)
             {
-                var tailPos = tailPositions.Last();
-    
                 if (direction == "R")
                 {
                     headPosition.X += 1;
@@ -56,7 +55,7 @@ class Day9Part1
                 tailPositions.Add(tailPos);
             }
         }
-        result = tailPositions.Distinct().Count();
+        result = tailPositions.Count();
         return result.ToString();
     }
 
