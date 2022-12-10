@@ -15,8 +15,8 @@ class Day9Part1
             var steps = int.Parse(move[1]);
             for (int i = 0; i < steps; i++)
             {
-                var lastTailPosition = tailPositions.Last();
-                var tailPos = new Point(lastTailPosition.X, lastTailPosition.Y);
+                var tailPos = tailPositions.Last();
+    
                 if (direction == "R")
                 {
                     headPosition.X += 1;
