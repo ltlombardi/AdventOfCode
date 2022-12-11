@@ -7,32 +7,32 @@ class Day10Part2
         var cycle = 0;
         var x = 1; // position of middle of a 3 pixels wide horizontal sprite
         var strengths = new List<int>();
-        var crtPixel = -1;
+        var crtPixelPosition = -1;
         for (int i = 0; i < lines.Length; i++)
         {
             var line = lines[i];
             var lineParts = line.Split(' ');
             cycle++;
-            crtPixel++;
+            crtPixelPosition++;
 
-            Print(x, crtPixel, cycle);
+            Print(x, crtPixelPosition, cycle);
 
             if (lineParts[0] == "addx")
             {
                 cycle++;
-                crtPixel++;
+                crtPixelPosition++;
 
-                Print(x, crtPixel, cycle);
+                Print(x, crtPixelPosition, cycle);
                 x += int.Parse(lineParts[1]);
             }
         }
         return result.ToString();
     }
 
-    private static void Print(int x, int crtPixel, int cycle)
+    private static void Print(int x, int crtPixelPosition, int cycle)
     {
-var dd = (crtPixel % 40);
-        if (x - 1 <= dd && dd <= x + 1)
+        var onScreenPosition = (crtPixelPosition % 40);
+        if (x - 1 <= onScreenPosition && onScreenPosition <= x + 1)
         {
             Console.Write('#');
         }

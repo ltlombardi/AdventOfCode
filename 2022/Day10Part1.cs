@@ -12,23 +12,19 @@ class Day10Part1
             var line = lines[i];
             var lineParts = line.Split(' ');
             cycle++;
-            NewMethod(cycle, x, strengths);
+            Calculate(cycle, x, strengths);
             if (lineParts[0] == "addx")
             {
                 cycle++;
-                NewMethod(cycle, x, strengths);
+                Calculate(cycle, x, strengths);
                 x += int.Parse(lineParts[1]);
             }
-            // if (lineParts[0] == "noop")
-            // {
-            //     NewMethod(cycle, x, strengths);
-            // }
         }
         result = strengths.Aggregate((a, b) => a + b);
         return result.ToString();
     }
 
-    private static void NewMethod(int cycle, int x, List<int> strengths)
+    private static void Calculate(int cycle, int x, List<int> strengths)
     {
         if (cycle == 20 || cycle >= 60 && (cycle - 20) % 40 == 0)
         {
