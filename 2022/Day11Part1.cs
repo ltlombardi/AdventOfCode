@@ -66,8 +66,8 @@ class Day11Part1
             while (ItemWorries.Any())
             {
                 var item = ItemWorries.Dequeue();
-                var worryLevel = Relief(Inspect(item));
-                monkeys[Throw(worryLevel)].ItemWorries.Enqueue(worryLevel);
+                var worry = Relief(Inspect(item));
+                monkeys[Throw(worry)].ItemWorries.Enqueue(worry);
             }
         }
         int Relief(int worry) => worry / 3;
