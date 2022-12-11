@@ -24,8 +24,8 @@ class Day11Part1
                 ));
         }
 
-        const int Rounds = 20;
-        foreach (var _ in Enumerable.Range(0, Rounds))
+        var rounds = 20;
+        foreach (var _ in Enumerable.Range(0, rounds))
         {
             foreach (var monkey in monkeys)
             {
@@ -38,7 +38,8 @@ class Day11Part1
     }
 
     class Monkey
-    { // This is an experiment in omitting accessors and using defaults accessors
+    {
+        // Using defaults accessors and properties to see how it looks like
         public Queue<int> ItemWorries { get; }
         public int InspectCount { get; private set; }
         int DivisibleBy { get; }
