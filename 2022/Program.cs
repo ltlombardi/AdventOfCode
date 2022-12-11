@@ -19,8 +19,8 @@ var solutions = new[,]
 };
 var day = dayToExecute ?? solutions.Length / 2;
 var result = await solutions[day - 1, 0].Invoke();
-Console.WriteLine($"Result of {day} part 1 is {result}");
+Console.WriteLine($"Result of day {day} part 1 is {result}");
 
 result = await solutions[day - 1, 1].Invoke();
-Console.WriteLine($"Result of {day} part 2 is {result}");
+Console.WriteLine($"Result of day {day} part 2 is {result}");
 
