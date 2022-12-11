@@ -33,6 +33,8 @@ class Day11Part2
             }
         }
         var monkeyInspectCounts = monkeys.Select(m => m.inspectCount).ToList();
+        // The multiplication in the Aggregate with int32 will do a silent overflow because number is too large. 
+        // Need to convert.
         result = monkeyInspectCounts.OrderDescending().Take(2).Select(Convert.ToInt64).Aggregate((a, b) => a * b);
         return result.ToString();
     }
@@ -56,7 +58,7 @@ class Day11Part2
         // downside if using field.. can't make inspectCount readonly because it is changed inside class. If it was a property could have used private set, protecting it from outside change.
         // So better to NEVER EVER use public fields... better to 
         public int inspectCount;
-        public readonly Queue<long> itemWorries;
+        public readonly Queue<long> itemWorries; // Have to use long because numbers get too big and silent overflow happens
         public readonly int divisibleBy;
         int testPassMonkey;
         int testFailMonkey;
