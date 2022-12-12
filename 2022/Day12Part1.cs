@@ -8,48 +8,61 @@ class Day12Part1
         var result = 0;
         var grid = lines.Select(l => l.ToCharArray()).ToArray();
 
-        var start = new Point();
-        var paths = Move(grid, start);
+        var transposed = grid[0].Select((c, i) => grid.Select(row => row.ElementAt(i)).ToArray()).ToArray();
 
-        result = paths.Min(p => p.Count());
+
+        var start = new Point();
+        var previous = new HashSet<Point> { };
+        var paths = BuildPaths(transposed, start, previous);
+
+        result = paths.Where(p => p.Last() == 'E').Min(p => p.Count()) - 1; // remove first height
         return result.ToString();
     }
 
-    static List<string> Move(char[][] grid, Point current)
+    static IEnumerable<string> BuildPaths(char[][] grid, Point current, ISet<Point> previous)
     {
-        var currentHeight = GetHeight(grid, current);
-        if (currentHeight == 'E')
+        if (grid[current.X][current.Y] == 'E')
         {
             return new List<string> { "E" };
         }
+        previous = new HashSet<Point>(previous); // influence next path, not past ones do to reference type.
+        previous.Add(current);
 
-        var paths = new List<string>();
         var neighbors = new[] {
             new Point(current.X + 1, current.Y),
             new Point(current.X - 1, current.Y),
             new Point(current.X, current.Y + 1),
             new Point(current.X, current.Y -1),
              };
-        foreach (var neighbor in neighbors.Where(p => Valid(p, grid.Count())))
+
+        var currentHeight = GetHeight(grid, current);
+
+        var validNextSteps = neighbors.Where(p =>
+            IsOnGrid(p, grid[0].Count(), grid.Count())
+            && IsNew(p, previous)
+            && IsAtMostOneHigher(currentHeight, GetHeight(grid, p)));
+
+
+    var paths = new List<string>{""};
+        foreach (var next in validNextSteps)
         {
-            paths.AddRange(GetPaths(grid, currentHeight, neighbor));
+            var restOfPaths = BuildPaths(grid, next, previous);
+            paths.AddRange(restOfPaths.Select(h => currentHeight.ToString() + h));
         }
         return paths;
     }
 
-    private static bool Valid(Point p, int size)
+    private static bool IsOnGrid(Point p, int rows, int columns)
     {
-        return (p.X >= 0 && p.Y >= 0) && ((p.X < size && p.Y < size));
+        return p.X >= 0
+            && p.Y >= 0
+            && p.X < columns
+            && p.Y < rows;
     }
 
-    private static IEnumerable<string> GetPaths(char[][] grid, char currentHeight, Point neighbor)
+    private static bool IsNew(Point p, ISet<Point> previous)
     {
-        var neighborHeight = GetHeight(grid, neighbor);
-        if (IsOneHigher(currentHeight, neighborHeight))
-        {
-            return Move(grid, neighbor).Select(h => currentHeight.ToString() + h);
-        }
-        return new string[0];
+        return !previous.Contains(p);
     }
 
     private static char GetHeight(char[][] grid, Point p)
@@ -65,7 +78,7 @@ class Day12Part1
         return grid[p.X][p.Y];
     }
 
-    private static bool IsOneHigher(char currentHeight, char neighborHeight)
+    private static bool IsAtMostOneHigher(char currentHeight, char neighborHeight)
     {
         return neighborHeight == currentHeight || neighborHeight == currentHeight + 1;
     }
