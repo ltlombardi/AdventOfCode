@@ -43,11 +43,11 @@ class Day12Part1
             && IsAtMostOneHigher(currentHeight, GetHeight(grid, p)));
 
 
-    var paths = new List<string>{""};
+        var paths = new List<string>();
         foreach (var next in validNextSteps)
         {
-            var restOfPaths = BuildPaths(grid, next, previous);
-            paths.AddRange(restOfPaths.Select(h => currentHeight.ToString() + h));
+            var pathSuffix = BuildPaths(grid, next, previous);
+            paths.AddRange(pathSuffix.Select(h => currentHeight.ToString() + h));
         }
         return paths;
     }
