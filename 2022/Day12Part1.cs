@@ -17,7 +17,7 @@ class Day12Part1
             {
                 if (transposed[i][j] == 'S')
                 {
-                    start = new Point(i,j);
+                    start = new Point(i, j);
                 }
             }
         }
@@ -47,10 +47,12 @@ class Day12Part1
 
         var currentHeight = GetHeight(grid, current);
 
-        var validNextSteps = neighbors.Where(p =>
-            IsOnGrid(p, grid[0].Count(), grid.Count())
-            && IsNew(p, previous)
-            && IsAtMostOneHigher(currentHeight, GetHeight(grid, p)));
+        var validNextSteps = neighbors
+            .Where(p =>
+                IsOnGrid(p, grid[0].Count(), grid.Count())
+                && IsNew(p, previous)
+                && IsAtMostOneHigher(currentHeight, GetHeight(grid, p)))
+            .ToArray();
 
         var paths = new List<string>();
         foreach (var next in validNextSteps)
