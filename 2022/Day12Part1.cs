@@ -10,8 +10,18 @@ class Day12Part1
 
         var transposed = grid[0].Select((c, i) => grid.Select(row => row.ElementAt(i)).ToArray()).ToArray();
 
-
         var start = new Point();
+        for (int i = 0; i < transposed.Count(); i++)
+        {
+            for (int j = 0; j < transposed[i].Count(); j++)
+            {
+                if (transposed[i][j] == 'S')
+                {
+                    start = new Point(i,j);
+                }
+            }
+        }
+
         var previous = new HashSet<Point> { };
         var paths = BuildPaths(transposed, start, previous);
 
@@ -41,7 +51,6 @@ class Day12Part1
             IsOnGrid(p, grid[0].Count(), grid.Count())
             && IsNew(p, previous)
             && IsAtMostOneHigher(currentHeight, GetHeight(grid, p)));
-
 
         var paths = new List<string>();
         foreach (var next in validNextSteps)
