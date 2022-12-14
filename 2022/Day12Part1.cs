@@ -7,10 +7,10 @@ class Day12Part1
         var lines = await File.ReadAllLinesAsync("Day12Input.txt");
         var result = 0;
         var grid = lines.Select(l => l.ToCharArray()).ToArray();
-
+        // Transpose so when accessing the grid via grid[][], the indexes use the x,y order of the cartesian plan
         var transposed = grid[0].Select((c, i) => grid.Select(row => row.ElementAt(i)).ToArray()).ToArray();
-
         var start = new Point();
+        var end = new Point();
         for (int i = 0; i < transposed.Count(); i++)
         {
             for (int j = 0; j < transposed[i].Count(); j++)
@@ -19,48 +19,55 @@ class Day12Part1
                 {
                     start = new Point(i, j);
                 }
+                if (transposed[i][j] == 'E')
+                {
+                    end = new Point(i, j);
+                }
             }
         }
 
         var previous = new HashSet<Point> { };
-        var paths = BuildPaths(transposed, start, previous);
 
-        result = paths.Where(p => p.Last() == 'E').Min(p => p.Count()) - 1; // remove first height
-        return result.ToString();
-    }
+        var queue = new Queue<Point> { };
+        var visited = new bool[transposed.Count(), transposed[0].Count()];
+        var distance = new int[transposed.Count(), transposed[0].Count()];
+        var parents = new Point[transposed.Count(), transposed[0].Count()];
 
-    static IEnumerable<string> BuildPaths(char[][] grid, Point current, ISet<Point> previous)
-    {
-        if (grid[current.X][current.Y] == 'E')
+        queue.Enqueue(start);
+        visited[start.X, start.Y] = true;
+        // parents[start.X, start.Y] = -1;
+        while (queue.Any())
         {
-            return new List<string> { "E" };
-        }
-        previous = new HashSet<Point>(previous); // influence next path, not past ones do to reference type.
-        previous.Add(current);
+            var current = queue.Dequeue();
 
-        var neighbors = new[] {
-            new Point(current.X + 1, current.Y),
-            new Point(current.X - 1, current.Y),
-            new Point(current.X, current.Y + 1),
-            new Point(current.X, current.Y -1),
+            var neighbors = new[] {
+                new Point(current.X + 1, current.Y),
+                new Point(current.X - 1, current.Y),
+                new Point(current.X, current.Y + 1),
+                new Point(current.X, current.Y -1),
              };
 
-        var currentHeight = GetHeight(grid, current);
+            var currentHeight = GetHeight(transposed, current);
 
-        var validNextSteps = neighbors
-            .Where(p =>
-                IsOnGrid(p, grid[0].Count(), grid.Count())
-                && IsNew(p, previous)
-                && IsAtMostOneHigher(currentHeight, GetHeight(grid, p)))
-            .ToArray();
+            var validNeighbors = neighbors
+                .Where(p =>
+                    IsOnGrid(p, transposed[0].Count(), transposed.Count())
+                    && IsAtMostOneHigher(currentHeight, GetHeight(transposed, p)))
+                .ToArray();
 
-        var paths = new List<string>();
-        foreach (var next in validNextSteps)
-        {
-            var pathSuffix = BuildPaths(grid, next, previous);
-            paths.AddRange(pathSuffix.Select(h => currentHeight.ToString() + h));
+            foreach (var item in validNeighbors)
+            {
+                if (!visited[item.X, item.Y])
+                {
+                    visited[item.X, item.Y] = true;
+                    queue.Enqueue(item);
+                    distance[item.X, item.Y] = distance[current.X, current.Y] + 1;
+                    parents[item.X, item.Y] = current;
+                }
+            }
         }
-        return paths;
+        result = distance[end.X, end.Y];
+        return result.ToString();
     }
 
     private static bool IsOnGrid(Point p, int rows, int columns)
@@ -69,11 +76,6 @@ class Day12Part1
             && p.Y >= 0
             && p.X < columns
             && p.Y < rows;
-    }
-
-    private static bool IsNew(Point p, ISet<Point> previous)
-    {
-        return !previous.Contains(p);
     }
 
     private static char GetHeight(char[][] grid, Point p)
