@@ -9,24 +9,12 @@ class Day12Part1
         var grid = lines.Select(l => l.ToCharArray()).ToArray();
         // Transpose so when accessing the grid via grid[][], the indexes use the x,y order of the cartesian plan
         var transposed = grid[0].Select((c, i) => grid.Select(row => row.ElementAt(i)).ToArray()).ToArray();
-        var start = new Point();
-        var end = new Point();
-        for (int i = 0; i < transposed.Count(); i++)
-        {
-            for (int j = 0; j < transposed[i].Count(); j++)
-            {
-                if (transposed[i][j] == 'S')
-                {
-                    start = new Point(i, j);
-                }
-                if (transposed[i][j] == 'E')
-                {
-                    end = new Point(i, j);
-                }
-            }
-        }
+        var (start, end) = FindStartEndPoints(transposed);
 
-        var previous = new HashSet<Point> { };
+        // This uses BFS (Breadth First Search) algorithm.
+        // As a result of how the algorithm works, the path found by breadth first search to any node is the 
+        // shortest path to that node, i.e the path that contains the smallest number of edges in unweighted graphs.
+        // explanation: https://cp-algorithms.com/graph/breadth-first-search.html#implementation
 
         var queue = new Queue<Point> { };
         var visited = new bool[transposed.Count(), transposed[0].Count()];
@@ -35,7 +23,7 @@ class Day12Part1
 
         queue.Enqueue(start);
         visited[start.X, start.Y] = true;
-        // parents[start.X, start.Y] = -1;
+
         while (queue.Any())
         {
             var current = queue.Dequeue();
@@ -70,6 +58,27 @@ class Day12Part1
         return result.ToString();
     }
 
+    private static (Point, Point) FindStartEndPoints(char[][] transposed)
+    {
+        var start = new Point();
+        var end = new Point();
+        for (int i = 0; i < transposed.Count(); i++)
+        {
+            for (int j = 0; j < transposed[i].Count(); j++)
+            {
+                if (transposed[i][j] == 'S')
+                {
+                    start = new Point(i, j);
+                }
+                if (transposed[i][j] == 'E')
+                {
+                    end = new Point(i, j);
+                }
+            }
+        }
+        return (start, end);
+    }
+
     private static bool IsOnGrid(Point p, int rows, int columns)
     {
         return p.X >= 0
@@ -93,6 +102,6 @@ class Day12Part1
 
     private static bool IsAtMostOneHigher(char currentHeight, char neighborHeight)
     {
-        return neighborHeight == currentHeight || neighborHeight == currentHeight + 1;
+        return neighborHeight <= currentHeight || neighborHeight == currentHeight + 1;
     }
 }
