@@ -17,6 +17,7 @@ var solutions = new[,]
     { Day10Part1.Solution, Day10Part2.Solution},
     { Day11Part1.Solution, Day11Part2.Solution},
     { Day12Part1.Solution, Day12Part2.Solution},
+    { Day14Part1.Solution, Day14Part2.Solution},
 };
 var day = dayToExecute ?? solutions.Length / 2;
 var result = await solutions[day - 1, 0].Invoke();
