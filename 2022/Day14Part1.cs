@@ -5,6 +5,9 @@ class Day14Part1
 {
     internal static async Task<string> Solution()
     {
+        // discovered that this code works on VS but not in VSCode.. Would need to check to see if file exist to use one or another..
+        // var projectDir = Directory.GetParent(Directory.GetCurrentDirectory())?.Parent?.Parent?.FullName; // so it works in VS2022 without having to mark every txt file are copy always.
+        // var lines = await File.ReadAllLinesAsync(projectDir + "\\Day14Input.txt");
         var lines = await File.ReadAllLinesAsync("Day14Input.txt");
         var result = 0;
         var paths = lines.Select(l => l.Split(" -> ").Select(PointConverter).ToList()).ToList();
@@ -19,12 +22,17 @@ class Day14Part1
         var sandOrigin = new Point(500 - xMin, 0);
 
         AddAir(grid);
-        grid[sandOrigin.X, 0] = '+'; // add origin of sand
         AddRocks(paths, grid);
+        result = MakeItFlowSand(grid, sandOrigin);
+        Print(grid);
+        return result.ToString();
+    }
 
+    private static int MakeItFlowSand(char[,] grid, Point sandOrigin)
+    {
+        grid[sandOrigin.X, 0] = '+'; // add origin of sand
         var counter = -1;
-        bool isFlowingToAbyss = false;
-        while (!isFlowingToAbyss)
+        for (var isFlowingToAbyss = false; !isFlowingToAbyss; counter++)
         {
             var x = sandOrigin.X;
             for (int y = 0; y < grid.GetLength(1); y++)
@@ -48,7 +56,7 @@ class Day14Part1
                     }
                     else
                     {
-                        if (y != 0)
+                        if (y != sandOrigin.Y)
                         {
                             grid[x, y] = 'O';
                         }
@@ -56,12 +64,8 @@ class Day14Part1
                     }
                 }
             }
-            counter++;
         }
-
-        Print(grid, xMin, xMax);
-        result = counter;
-        return result.ToString();
+        return counter;
     }
 
     private static void AddRocks(List<List<Point>> paths, char[,] grid)
@@ -108,9 +112,8 @@ class Day14Part1
         }
     }
 
-    private static void Print(char[,] grid, int minX, int maxX)
+    private static void Print(char[,] grid)
     {
-        Console.WriteLine($"Min x: {minX}, Max x: {maxX}");
         var sb = new StringBuilder();
         for (int row = 0; row < grid.GetLength(1); row++)
         {
