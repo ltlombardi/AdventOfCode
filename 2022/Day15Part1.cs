@@ -1,8 +1,8 @@
-using System;
 using System.Drawing;
 
 class Day15Part1
 {
+    private const int DesiredY = 2000000;
 
     internal static async Task<string> Solution()
     {
@@ -13,10 +13,9 @@ class Day15Part1
         var maxX = sensors.Max(s => s.MaxX);
 
         int invalidPositionCount = 0;
-        var desiredY = 2000000;
-        for (var x = minX; x < maxX; ++x)
+        for (var x = minX; x < maxX; x++)
         {
-            var position = new Point(x, desiredY);
+            var position = new Point(x, DesiredY);
             if (sensors.Any(s => s.SensorRadius >= s.DistanceTo(position) && position != s.BeaconPos))
             {
                 invalidPositionCount++;

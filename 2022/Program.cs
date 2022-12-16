@@ -27,3 +27,6 @@ Console.WriteLine($"Result of day {day} part 1 is {result}");
 result = await solutions[day - 1, 1].Invoke();
 Console.WriteLine($"Result of day {day} part 2 is {result}");
 
+// TODO: save the example input and my input, to be easier to run both. 
+// Maybe put an assert equals, with the expected result of the example.
+// maybe call the solution() and inside it, the method would call a Solve(args), with the example input and my input
