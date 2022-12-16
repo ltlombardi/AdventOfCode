@@ -3,6 +3,12 @@ using System.Text;
 
 class Day14Part1
 {
+    //TODO: clean and improve... see if there is a way to avoid so much problems with index out of bounds in the grid..
+    // should be maxY and MaxX not the way i put
+    // look into this to improve https://stackoverflow.com/questions/15730346/array-with-negative-indexes
+    // for this problem, that points are very far alway from point (0,0), and grid is sparcely populated, it's better to use dictionary
+
+    // this is also interesting     // this helped me https://stackoverflow.com/questions/11837139/implementation-of-array-with-negative-indices
     internal static async Task<string> Solution()
     {
         // discovered that this code works on VS but not in VSCode.. Would need to check to see if file exist to use one or another..
