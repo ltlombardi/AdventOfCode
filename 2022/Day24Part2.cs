@@ -1,9 +1,14 @@
-    class Day24Part2
+class Day24Part2
+{
+    internal static async Task<(string, string)> Solution()
     {
-        internal static async Task<string> Solution()
-        {
-            var lines = await File.ReadAllLinesAsync("Day24Input.txt");
-            var result = 0;
-            return result.ToString();
-        }
+        return (await Solve("Day24ExampleInput.txt"), await Solve("Day24Input.txt"));
     }
+
+    internal static async Task<string> Solve(string inputFileName)
+    {
+        var lines = await File.ReadAllLinesAsync(inputFileName);
+        var result = 0;
+        return result.ToString();
+    }
+}
