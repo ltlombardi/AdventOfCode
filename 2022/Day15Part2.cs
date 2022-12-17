@@ -2,31 +2,41 @@ using System.Drawing;
 
 class Day15Part2
 {
-    private const int MaxAxisValue = 20;
+    private const int MaxAxisValue = 4000000;
 
     internal static async Task<string> Solution()
     {
+        // doing like part 1 would take hours.. would need to check all the lines and all the columns in the grid
+        // In a 4 million by 4 million square, there is only 1 point not in range of all the sensor. 
+        // For that to be true, that point must be by de side of at least 3 ou 4 sensor ranges, just outside their range
+        // 1 index of difference from the sensor edge. So, check all the points in all the edges +1 of all the sensor area
+
         var lines = await File.ReadAllLinesAsync("Day15Input.txt");
         var sensors = lines.Select(Converter).ToList();
         var result = 0L;
-        var minX = 0;
-        var maxX = MaxAxisValue;
-        var minY = 0;
-        var maxY = MaxAxisValue;
 
-        var distressSignalPos = new Point();
-        for (var y = minY; y < maxY; y++)
-        {
-            for (var x = minX; x < maxX; x++)
+        var offset = 1; // go the outside edge;
+        var outsideEdgeOfSensorRange = sensors
+            .SelectMany(s =>
             {
-                var position = new Point(x, y);
-                if (sensors.All(s => s.SensorRadius < s.DistanceTo(position) && position != s.BeaconPos))
-                {
-                    distressSignalPos = position;
-                }
+                var range = Enumerable.Range(0, s.SensorRadius + 1).ToList();
+                var topLeft = range.Select(i => new Point(s.MinX - offset + i, s.Pos.Y - i));
+                var botLeft = range.Select(i => new Point(s.MinX - offset + i, s.Pos.Y + i));
+                var topRight = range.Select(i => new Point(s.MaxX + offset - i, s.Pos.Y - i));
+                var botRight = range.Select(i => new Point(s.MaxX - offset - i, s.Pos.Y + i));
+                return topLeft.Concat(botRight).Concat(botLeft).Concat(topRight);
+            })
+            .Where(p => p.X > 0 && p.X < MaxAxisValue
+                        && p.Y > 0 && p.Y < MaxAxisValue)
+            .ToList();
+        var distressSignalPos = new Point();
+        foreach (var position in outsideEdgeOfSensorRange)
+        {
+            if (sensors.All(s => s.DistanceTo(position) > s.SensorRadius))
+            {
+                distressSignalPos = position;
             }
         }
-
         result = 4000000L * distressSignalPos.X + distressSignalPos.Y;
         return result.ToString();
     }

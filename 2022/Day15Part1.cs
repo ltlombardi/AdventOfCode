@@ -9,20 +9,20 @@ class Day15Part1
         var lines = await File.ReadAllLinesAsync("Day15Input.txt");
         var sensors = lines.Select(Converter).ToList();
         var result = 0;
-        var minX = sensors.Min(s => s.MinX);
-        var maxX = sensors.Max(s => s.MaxX);
+        // var minX = sensors.Min(s => s.MinX);
+        // var maxX = sensors.Max(s => s.MaxX);
 
-        int invalidPositionCount = 0;
-        for (var x = minX; x < maxX; x++)
-        {
-            var position = new Point(x, DesiredY);
-            if (sensors.Any(s => s.SensorRadius >= s.DistanceTo(position) && position != s.BeaconPos))
-            {
-                invalidPositionCount++;
-            }
-        }
+        // int invalidPositionCount = 0;
+        // for (var x = minX; x < maxX; x++)
+        // {
+        //     var position = new Point(x, DesiredY);
+        //     if (sensors.Any(s => s.SensorRadius >= s.DistanceTo(position) && position != s.BeaconPos))
+        //     {
+        //         invalidPositionCount++;
+        //     }
+        // }
 
-        result = invalidPositionCount;
+        // result = invalidPositionCount;
         return result.ToString();
     }
 
