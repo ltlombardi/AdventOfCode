@@ -18,14 +18,21 @@ var solutions = new[,]
     { Day11Part1.Solution, Day11Part2.Solution},
     { Day12Part1.Solution, Day12Part2.Solution},
     { Day14Part1.Solution, Day14Part2.Solution},
+};
+
+var solutions2 = new[,]
+{
     { Day15Part1.Solution, Day15Part2.Solution},
 };
-var day = dayToExecute ?? solutions.Length / 2;
-var result = await solutions[day - 1, 0].Invoke();
-Console.WriteLine($"Result of day {day} part 1 is {result}");
 
-result = await solutions[day - 1, 1].Invoke();
-Console.WriteLine($"Result of day {day} part 2 is {result}");
+var day = dayToExecute ?? solutions2.Length / 2;
+var result = await solutions2[day - 1, 0].Invoke();
+Console.WriteLine($"Day {day} part 1 example result is {result.Item1}");
+Console.WriteLine($"Day {day} part 1 result is {result.Item2}");
+
+result = await solutions2[day - 1, 1].Invoke();
+Console.WriteLine($"Day {day} part 2 example result is {result.Item1}");
+Console.WriteLine($"Day {day} part 2 result is {result.Item2}");
 
 // TODO: save the example input and my input, to be easier to run both. 
 // Maybe put an assert equals, with the expected result of the example.

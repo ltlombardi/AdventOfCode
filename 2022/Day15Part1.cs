@@ -2,27 +2,31 @@ using System.Drawing;
 
 class Day15Part1
 {
-    private const int DesiredY = 2000000;
 
-    internal static async Task<string> Solution()
+    internal static async Task<(string, string)> Solution()
     {
-        var lines = await File.ReadAllLinesAsync("Day15Input.txt");
+        return (await Solve("Day15ExampleInput.txt", 10), await Solve("Day15Input.txt", 2000000));
+    }
+
+    internal static async Task<string> Solve(string inputFileName, int DesiredY)
+    {
+        var lines = await File.ReadAllLinesAsync(inputFileName);
         var sensors = lines.Select(Converter).ToList();
         var result = 0;
-        // var minX = sensors.Min(s => s.MinX);
-        // var maxX = sensors.Max(s => s.MaxX);
+        var minX = sensors.Min(s => s.MinX);
+        var maxX = sensors.Max(s => s.MaxX);
 
-        // int invalidPositionCount = 0;
-        // for (var x = minX; x < maxX; x++)
-        // {
-        //     var position = new Point(x, DesiredY);
-        //     if (sensors.Any(s => s.SensorRadius >= s.DistanceTo(position) && position != s.BeaconPos))
-        //     {
-        //         invalidPositionCount++;
-        //     }
-        // }
+        int invalidPositionCount = 0;
+        for (var x = minX; x < maxX; x++)
+        {
+            var position = new Point(x, DesiredY);
+            if (sensors.Any(s => s.SensorRadius >= s.DistanceTo(position) && position != s.BeaconPos))
+            {
+                invalidPositionCount++;
+            }
+        }
 
-        // result = invalidPositionCount;
+        result = invalidPositionCount;
         return result.ToString();
     }
 

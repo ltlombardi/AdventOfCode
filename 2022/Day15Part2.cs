@@ -2,16 +2,18 @@ using System.Drawing;
 
 class Day15Part2
 {
-    private const int MaxAxisValue = 4000000;
+    internal static async Task<(string, string)> Solution()
+    {
+        return (await Solve("Day15ExampleInput.txt", 20), await Solve("Day15Input.txt", 4000000));
+    }
 
-    internal static async Task<string> Solution()
+    internal static async Task<string> Solve(string inputFileName, int MaxAxisValue)
     {
         // doing like part 1 would take hours.. would need to check all the lines and all the columns in the grid
         // In a 4 million by 4 million square, there is only 1 point not in range of all the sensor. 
         // For that to be true, that point must be by de side of at least 3 ou 4 sensor ranges, just outside their range
         // 1 index of difference from the sensor edge. So, check all the points in all the edges +1 of all the sensor area
-
-        var lines = await File.ReadAllLinesAsync("Day15Input.txt");
+        var lines = await File.ReadAllLinesAsync(inputFileName);
         var sensors = lines.Select(Converter).ToList();
         var result = 0L;
 
