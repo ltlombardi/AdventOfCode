@@ -3,7 +3,7 @@ internal class Part2
 {
     internal static async Task<string> Run()
     {
-        var lines = await File.ReadAllLinesAsync("ExampleInput.txt");
+        var lines = await File.ReadAllLinesAsync(@"../../../Day22/ExampleInput.txt");
         return "";
     }
 }

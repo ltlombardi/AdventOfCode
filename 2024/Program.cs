@@ -1,7 +1,11 @@
-﻿SetupFolderStructure();
-AskWhatToRun();
+﻿using System.Reflection;
 
-static void AskWhatToRun()
+SetupFolderStructure();
+var (day, part) = AskWhatToRun();
+await RunMethod(day, part);
+
+
+static (int day, int part) AskWhatToRun()
 {
     int previousDay = 1;
     int previousPart = 1;
@@ -47,6 +51,7 @@ static void AskWhatToRun()
     File.WriteAllLines(lastRunInfoPath, [previousDay.ToString(), previousPart.ToString()]);
 
     Console.WriteLine($"You entered: Day {previousDay}, Part {previousPart}");
+    return (previousDay, previousPart);
 }
 
 static string GetSolutionDirectory()
@@ -80,7 +85,8 @@ static void SetupFolderStructure()
             using (var stream = File.Create(Path.Combine(folderName, "Input.txt"))) { };
         }
 
-        Console.WriteLine("Folders and files created successfully!");
+        Console.WriteLine(" Since this is first run, folders and files were created successfully! Re run app to run first exercise.");
+        Environment.Exit(0);
     }
 }
 
@@ -91,10 +97,46 @@ internal class {className}
 {{
     internal static async Task<string> Run()
     {{
-        var lines = await File.ReadAllLinesAsync(""ExampleInput.txt"");
+        var lines = await File.ReadAllLinesAsync(@""../../../Day{day:D2}/ExampleInput.txt"");
         return """";
     }}
 }}
 
 ";
 }
+
+static async Task RunMethod(int day, int part)
+{
+    var className = $"AdventOfCode2024.Day{day:D2}.Part{part}";
+    var methodName = "Run";
+
+    try
+    {
+        var assembly = Assembly.GetExecutingAssembly();
+        var type = assembly.GetType(className);
+
+        if (type == null)
+        {
+            Console.WriteLine($"Class '{className}' not found.");
+            return;
+        }
+
+        var method = type.GetMethod(methodName, BindingFlags.Static | BindingFlags.NonPublic | BindingFlags.Public);
+
+        if (method == null)
+        {
+            Console.WriteLine($"Method '{methodName}' not found in class '{className}'.");
+            return;
+        }
+
+        var resultTask = (Task<string>)method.Invoke(null, null);
+        var result = await resultTask;
+
+        Console.WriteLine($"Result: {result}");
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine($"An error occurred: {ex.Message}");
+    }
+}
+
