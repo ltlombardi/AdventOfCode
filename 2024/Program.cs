@@ -62,6 +62,10 @@ static string GetSolutionDirectory()
     {
         currentDirectory = Directory.GetParent(Directory.GetCurrentDirectory())!.Parent!.Parent!.FullName;
     }
+    else
+    {
+        // VSCode probably doesn't need all this. It read the files considering the current source code path.
+    }
 
     return currentDirectory;
 }
