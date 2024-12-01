@@ -23,6 +23,7 @@ var solutions = new[,]
 var solutions2 = new[,]
 {
     { Day15Part1.Solution, Day15Part2.Solution},
+    { Day16Part1.Solution, Day16Part2.Solution},
 };
 
 var day = dayToExecute ?? solutions2.Length / 2;
