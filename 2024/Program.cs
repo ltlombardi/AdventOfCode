@@ -1,4 +1,5 @@
-﻿AskWhatToRun();
+﻿SetupFolderStructure();
+AskWhatToRun();
 
 static void AskWhatToRun()
 {
@@ -72,13 +73,28 @@ static void SetupFolderStructure()
             var folderName = Path.Combine(currentDirectory, $"Day{day:D2}");
             _ = Directory.CreateDirectory(folderName);
 
-            string[] fileNames = { "Part1.cs", "Part2.cs", "ExampleInput.txt", "Input.txt" };
-            foreach (var fileName in fileNames)
-            {
-                using (var stream = File.Create(Path.Combine(folderName, fileName))) { };
-            }
+            File.WriteAllText(Path.Combine(folderName, "Part1.cs"), CreateClassContent("Part1", day));
+            File.WriteAllText(Path.Combine(folderName, "Part2.cs"), CreateClassContent("Part2", day));
+
+            using (var stream = File.Create(Path.Combine(folderName, "ExampleInput.txt"))) { };
+            using (var stream = File.Create(Path.Combine(folderName, "Input.txt"))) { };
         }
 
         Console.WriteLine("Folders and files created successfully!");
     }
+}
+
+static string CreateClassContent(string className, int day)
+{
+    return $@"namespace AdventOfCode2024.Day{day:D2};
+internal class {className}
+{{
+    internal static async Task<string> Run()
+    {{
+        var lines = await File.ReadAllLinesAsync(""ExampleInput.txt"");
+        return """";
+    }}
+}}
+
+";
 }
