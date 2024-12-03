@@ -101,7 +101,7 @@ internal class {className}
 {{
     internal static async Task<string> Run()
     {{
-        var lines = await File.ReadAllLinesAsync(@""../../../Day{day:D2}/ExampleInput.txt"");
+        var lines = await File.ReadAllLinesAsync(@""../../../Day{day:D2}/Input.txt"");
         return """";
     }}
 }}
