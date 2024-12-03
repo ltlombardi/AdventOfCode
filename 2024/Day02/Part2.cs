@@ -9,26 +9,27 @@ internal class Part2
         {
             var levels = line.Split(' ').Select(int.Parse).ToList();
             var isSafe = true;
-            var marginUsed = false;
             var levelToSkip = -1;
             var initialDirection = levels[1] - levels[0] > 0;
             for (var i = 0; i < levels.Count - 1; i++)
             {
-                var cur = levels[i];
-                if (i == levelToSkip)
-                {
-                    cur = levels[i - 1];
-                }
-                var next = levels[i + 1];
-                var res = IsSafe(initialDirection, cur, next);
-                if (!res && !marginUsed)
+                var check = IsSafe(initialDirection, levels[i], levels[i + 1]);
+                if (!check && levelToSkip == -1)
                 {
                     levelToSkip = i + 1;
-                    if (levelToSkip == levels.Count - 1) continue;
-                    res = IsSafe(initialDirection, cur, levels[i + 2]);
-                    marginUsed = true;
+                    break;
                 }
-                isSafe &= res;
+                isSafe &= check;
+            }
+            if (levelToSkip != -1 && levelToSkip != levels.Count - 1)
+            {
+                levels.RemoveAt(levelToSkip);
+                initialDirection = levels[1] - levels[0] > 0;
+                for (var i = 0; i < levels.Count - 1; i++)
+                {
+                    var check = IsSafe(initialDirection, levels[i], levels[i + 1]);
+                    isSafe &= check;
+                }
             }
             if (isSafe) numberOfSafeReports++;
         }
