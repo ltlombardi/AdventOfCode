@@ -1,6 +1,6 @@
 namespace AdventOfCode2024.Day02;
 internal class Part2
-{
+{ // 311 
     internal static async Task<string> Run()
     {
         var lines = await File.ReadAllLinesAsync(@"../../../Day02/Input.txt");
@@ -13,22 +13,65 @@ internal class Part2
             var initialDirection = levels[1] - levels[0] > 0;
             for (var i = 0; i < levels.Count - 1; i++)
             {
-                var check = IsSafe(initialDirection, levels[i], levels[i + 1]);
-                if (!check && levelToSkip == -1)
+                isSafe = IsSafe(initialDirection, levels[i], levels[i + 1]);
+                if (!isSafe)
                 {
-                    levelToSkip = i + 1;
+                    levelToSkip = i;
                     break;
                 }
-                isSafe &= check;
             }
-            if (levelToSkip != -1 && levelToSkip != levels.Count - 1)
+            if (!isSafe)
             {
-                levels.RemoveAt(levelToSkip);
-                initialDirection = levels[1] - levels[0] > 0;
-                for (var i = 0; i < levels.Count - 1; i++)
+                var newLevels = levels.ToList();
+                newLevels.RemoveAt(levelToSkip);
+                initialDirection = newLevels[1] - newLevels[0] > 0;
+                for (var i = 0; i < newLevels.Count - 1; i++)
                 {
-                    var check = IsSafe(initialDirection, levels[i], levels[i + 1]);
-                    isSafe &= check;
+                    isSafe = IsSafe(initialDirection, newLevels[i], newLevels[i + 1]);
+                    if (!isSafe)
+                    {
+                        break;
+                    }
+                }
+            }
+            if (!isSafe)
+            {
+                var newLevels = levels.ToList();
+                newLevels.RemoveAt(levelToSkip + 1);
+                initialDirection = newLevels[1] - newLevels[0] > 0;
+                for (var i = 0; i < newLevels.Count - 1; i++)
+                {
+                    isSafe = IsSafe(initialDirection, newLevels[i], newLevels[i + 1]);
+                    if (!isSafe)
+                    {
+                        break;
+                    }
+                }
+            }
+            if (!isSafe)
+            {
+                var newLevels = levels.SkipLast(1).ToList();
+                initialDirection = newLevels[1] - newLevels[0] > 0;
+                for (var i = 0; i < newLevels.Count - 1; i++)
+                {
+                    isSafe = IsSafe(initialDirection, newLevels[i], newLevels[i + 1]);
+                    if (!isSafe)
+                    {
+                        break;
+                    }
+                }
+            }
+            if (!isSafe)
+            {
+                var newLevels = levels.Skip(1).ToList();
+                initialDirection = newLevels[1] - newLevels[0] > 0;
+                for (var i = 0; i < newLevels.Count - 1; i++)
+                {
+                    isSafe = IsSafe(initialDirection, newLevels[i], newLevels[i + 1]);
+                    if (!isSafe)
+                    {
+                        break;
+                    }
                 }
             }
             if (isSafe) numberOfSafeReports++;
