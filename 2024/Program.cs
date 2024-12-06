@@ -140,7 +140,7 @@ static async Task RunMethod(int day, int part)
     }
     catch (Exception ex)
     {
-        Console.WriteLine($"An error occurred: {ex.Message}");
+        Console.WriteLine($"An error occurred: {ex}");
     }
 }
 
