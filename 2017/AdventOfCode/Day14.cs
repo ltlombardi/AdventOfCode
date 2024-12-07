@@ -29,7 +29,7 @@ namespace AdventOfCode
         private void Group(int[][] grid)
         {
             int groups = 1;
-            if (item == '1') { }
+
         }
     }
 }
