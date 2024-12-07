@@ -475,3 +475,7 @@ $RECYCLE.BIN/
 
 # Windows shortcuts
 *.lnk
+
+
+
+/2024/lastRunInfo.txt
