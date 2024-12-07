@@ -20,7 +20,7 @@ class Setup
     {
         string currentDirectory = GetSolutionDirectory();
 
-        var existingFiles = Path.Combine(currentDirectory, "Day01");
+        var existingFiles = Path.Combine(currentDirectory, "Day31");
         if (!Directory.Exists(existingFiles))
         {
             for (int day = 1; day <= 31; day++)
@@ -45,7 +45,7 @@ class Setup
         return $@"namespace AdventOfCode2024.Day{day:D2};
 internal class {className}
 {{
-    internal static async Task<string> Run()
+    internal static async Task<dynamic> Run()
     {{
         var lines = await File.ReadAllLinesAsync(@""../../../Day{day:D2}/Input.txt"");
         return """";

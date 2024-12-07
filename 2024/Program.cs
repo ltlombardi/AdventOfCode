@@ -79,7 +79,7 @@ static async Task Run(int day, int part)
             return;
         }
 
-        var resultTask = (Task<string>)method.Invoke(null, null);
+        var resultTask = (Task<dynamic>)method.Invoke(null, null);
         var result = await resultTask;
 
         Console.WriteLine($"Result: {result}");
