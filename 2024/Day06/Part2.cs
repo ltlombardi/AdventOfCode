@@ -24,20 +24,50 @@ internal class Part2
         var direction = Direction.Up;
         var options = new HashSet<Position>();
 
-        while (InsideMap(lines, pos))
+        // Part 2 Need to put obstacle before guard begins.. if I put during.. I may add to a place the guard has already walked, and would have changed direction if already there
+        var result = 0;
+        for (int i = 0; i < lines.Length; i++)
         {
-            if (lines[pos.row][pos.col] == '#')
+            for (int j = 0; j < lines[0].Length; j++)
             {
-                pos = GoBack(pos, direction);
-                direction = ChangeDirection(direction);
-            }
+                var temp = lines[i][j];
+                if (temp == '#')
+                {
+                    continue;
+                }
+                lines[i][j] = '#';
 
-            pos = Advance(pos, direction);
-            if (pos != initialPos)
-                CheckPossibleLoop(lines, pos, direction, options);
+                direction = Direction.Up;
+                if (IsCycle(initialPos, direction, lines.Length, lines[0].Length, lines))
+                {
+                    result++;
+                }
+                lines[i][j] = temp;
+            }
         }
 
+        Console.WriteLine(result);
+
         return options.Count;
+    }
+
+    private static bool IsCycle(Position gardPosition, char direction, int rowLen, int colLen, char[][] input)
+    {
+        var seenObstacle = new HashSet<(Position, char)>();
+        while (InsideMap(input, gardPosition))
+        {
+            if (input[gardPosition.row][gardPosition.col] == '#')
+            {
+                if (!seenObstacle.Add((gardPosition, direction)))
+                {
+                    return true;
+                }
+                gardPosition = GoBack(gardPosition!, direction);
+                direction = ChangeDirection(direction);
+            }
+            gardPosition = Advance(gardPosition!, direction);
+        }
+        return false;
     }
 
     private static Position GoBack(Position pos, char direction)
